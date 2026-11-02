@@ -3247,6 +3247,7 @@ type RoomSummaryJson = {
   is_console_chat?: boolean;
   archived: boolean;
   created_at: string;
+  write_visibility?: string;
 };
 
 function mapRoomSummary(r: RoomSummaryJson): RemoteRoomSummary {
@@ -3264,6 +3265,9 @@ function mapRoomSummary(r: RoomSummaryJson): RemoteRoomSummary {
     isConsoleChat: r.is_console_chat ?? false,
     archived: r.archived,
     createdAt: r.created_at,
+    ...(r.write_visibility !== undefined
+      ? { writeVisibility: visibilityOf(r.write_visibility) }
+      : {}),
   };
 }
 
@@ -3284,7 +3288,6 @@ type RoomDetailJson = RoomSummaryJson & {
   channel_on_delete?: ChannelRetirement | null;
   linked_channel_name?: string | null;
   read_visibility?: string;
-  write_visibility?: string;
   group_id?: string | null;
   group_name?: string | null;
   owner_name?: string | null;
